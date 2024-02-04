@@ -6,15 +6,15 @@ function checkWin(arr,marker){
             arr[j][i] == marker ? c++ : null;
             (i==j && arr[i][j] == marker) ? d1++ : null;
             (i+j==2 && arr[i][j] == marker) ? d2++ : null;
-            arr[i][j] == null ? n++ : null;
+            arr[i][j] == null ? n+=1 : null;
         }
-        if (r==3) return 'r';
+        if (r==3) return 'r'; // keeping the return values for row and column separate for future highlighting of the winning combination
         if (c==3) return 'c';
         r = c = 0;
     }
     if (d1==3) return 'd1';
-    if (d2 ==3) return 'd2';
-    if (n=0) return 'draw';
+    if (d2==3) return 'd2';
+    if (n==0) return 'draw';
     return false;
 }
 
@@ -24,21 +24,13 @@ const gameBoard = {
         [null,null,null],
         [null,null,null]
     ],
-    positions: [
-        [1,2,3],
-        [4,5,6],
-        [7,8,9]
-    ],
-    formatGameboard: function (){
-        let formattedGameboard = this.board.map(row => row.map(element => '| ' + (element==null ? '_' : element)));
-        let formattedpositions = this.positions.map(row => row.map(element => '| ' + element));
-        let combined = formattedGameboard.map((row,index) => row.concat(['\t\t']).concat(formattedpositions[index]));
-        let string = '';
-        combined.map(row => {
-            row.map(element => string += element + '\t');
-            string += '\n';
-        });
-        return string;
+    turnInfo: document.getElementById("turn-info"),
+    updateGameboard: function (){
+        for (i=0;i<3;i++){
+            for (j=0;j<3;j++){
+                document.getElementById(i+''+j).innerHTML = this.board[i][j] || '';
+            }
+        }
     }
 }
 
@@ -53,73 +45,49 @@ class Player {
 const game = {
     player1: new Player('Player 1', 'X'),
     player2: new Player('Player 2', 'O'),
+    draws: 0,
     turn: null,
     startingPlayer: null,
-    gameflag: 1,
-    roundflag: 1,
+    gameOver: true, //by default game is over and needs to be started using the Start button
     reset: function(){
         gameBoard.board = gameBoard.board.map(row => row.map (element=>null));
+        gameBoard.updateGameboard(); 
         this.startingPlayer === this.player1 ? this.startingPlayer = this.player2 : this.startingPlayer = this.player1;
         this.turn = this.startingPlayer;
+        document.getElementById('turn-info').innerHTML = this.turn.name + '\'s turn [' + this.turn.marker + ']'
+        this.gameOver = false;
     },
-    init: function(){
-        this.startingPlayer = this.turn = this.player1;
-        this.player1.wins = this.player2.wins = 0;
-        while(this.gameflag){
-             while(this.roundflag){
-                this.play();
-                this.turn === this.player1 ? this.turn = this.player2 : this.turn = this.player1;
+    getInput: function(divId){
+        if (this.gameOver) return;
+        document.getElementById('turn-info').innerHTML = this.turn.name + '\'s turn [' + this.turn.marker + ']'
+        let rowIndex = Number(divId.substring(0,1));
+        let columnIndex = Number(divId.substring(divId.length-1));
+        if (gameBoard.board[rowIndex][columnIndex]==null) { // Check if the cell which is clicked is empty
+            gameBoard.board[rowIndex][columnIndex] = this.turn.marker; // Add the marker of player who has their turn
+            gameBoard.updateGameboard(); // Update GameBoard display
+            let chk = checkWin(gameBoard.board,this.turn.marker); // check for winner
+            if ((chk == 'r')||(chk == 'c')||(chk == 'd1')||(chk == 'd2')) {
+                this.turn.wins++;
+                document.getElementById('player1').innerHTML = 'Wins: ' + this.player1.wins; 
+                document.getElementById('player2').innerHTML = 'Wins: ' + this.player2.wins;  
+                document.getElementById('turn-info').innerHTML = this.turn.name + ' is the winner!';
+                document.getElementById('start-button').innerHTML = 'Restart';
+                this.gameOver = true;
             }
-            if (this.gameflag) {
-                this.reset();
-                this.roundflag = 1;
-            }
-        }
-        console.log('GAME OVER');
-
-    },
-    inputmove: function(){
-        console.log(gameBoard.formatGameboard());
-        let inputFlag = 1;
-        while (inputFlag){
-            //userInput = prompt(this.turn.name + '\'s turn [' + this.turn.marker + ']');
-            if (!((userInput % 1 === 0) && (userInput >= 1 && userInput <=9))) {
-                console.log('Enter integer from 1 to 9');
+            else if (chk == 'draw') {
+                this.draws++;
+                document.getElementById('turn-info').innerHTML = 'Game is a draw!';
+                document.getElementById('game-draws').innerHTML = 'Draws: ' + this.draws;
+                document.getElementById('start-button').innerHTML = 'Restart'; 
+                this.gameOver = true;
             }
             else {
-                let rowIndex = Math.floor((userInput-1)/3);
-                let columnIndex = (userInput-1)%3;
-                if (gameBoard.board[rowIndex][columnIndex]!=null) {
-                    console.log('Position is already filled');
-                }
-                else {
-                    gameBoard.board[rowIndex][columnIndex] = this.turn.marker;
-                    inputFlag = 0;
-                }
+                this.turn === this.player1 ? this.turn = this.player2 : this.turn = this.player1;
+                document.getElementById('turn-info').innerHTML = this.turn.name + '\'s turn [' + this.turn.marker + ']';
             }
-        }
-
-    },
-    play: function(){
-        this.inputmove();
-        let chk = checkWin(gameBoard.board,this.turn.marker);
-        if ((chk == 'r')||(chk == 'c')||(chk == 'd1')||(chk == 'd2')) {
-            console.log(gameBoard.formatGameboard());
-            this.turn.wins++;
-            console.log('Winner is: ' + this.turn.name + '\n' + 'Win Stats:\t' + this.player1.name + ':' + this.player1.wins + '\t' + this.player2.name + ":" +  this.player2.wins);
-            //prompt('One more game? [y/n]') == 'y' ? this.gameflag=1 : this.gameflag = 0;
-            this.roundflag = 0;
-        }
-        if (chk == 'draw') {
-            console.log(gameBoard.formatGameboard());
-            console.log('Draw: No one wins' + '\n' + 'Win Stats:\t' + this.player1.name + ':' + this.player1.wins + '\t' + this.player2.name + ":" + this.player2.wins);
-            //prompt('One more game? [y/n]') == 'y' ? this.gameflag=1 : this.gameflag = 0;
-            this.roundflag = 0;
         }
     }
     
-};
-
-function startGame(){
-    game.init();
 }
+
+
