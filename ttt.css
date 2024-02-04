@@ -1,0 +1,49 @@
+div {
+    border: 1px solid black; /* Applies to all div elements */
+}
+
+div#game-container {
+    width: 600px; /* Set width to 600 pixels */
+    margin: 10px auto; /* Center the div horizontally */
+    border: 1px solid lightgrey; /* 1px light grey border */
+}
+
+div#game-container > div{
+    margin: 10px auto;
+}
+
+div#player-details{
+    display: flex;
+    flex: 1 1 auto;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-align: center;
+}
+div#turn-info{
+    text-align: center;
+}
+
+div.game-grid{
+    display: grid;
+    padding: 16px;
+    background: lightgrey;
+    align-items: center;
+    justify-content: center;
+    grid-template-columns: 50px 50px 50px;
+    grid-template-rows: 50px 50px 50px;
+    gap: 8px;
+}
+.grid-item {
+    width: 50px;
+    height: 50px;
+    border: 1px solid darkslategray;
+    background: skyblue;
+  }
+div#game-controls{
+    text-align: center;
+}
+div#start-button{
+    display: inline-block;
+    padding: 4px 8px;
+}
