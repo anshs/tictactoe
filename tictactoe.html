@@ -11,7 +11,7 @@
   <div id = "game-container">
     <div id = "game-title"><h1>Tic-Tac-Toe</h1></div>
     <div id = "player-details">
-      <div>
+      <div id="player1name">
         Player 1 [X]
         <div id="player1">Wins: 0</div>
       </div>
@@ -19,22 +19,22 @@
         vs
         <div id="game-draws">Draws: 0</div>
       </div>
-      <div>
+      <div id="player2name">
         Player 2 [O]
         <div id="player2">Wins: 0</div>
       </div>
     </div>
     <div id="turn-info">Click "Start" to begin game</div>
     <div class="game-grid">
-      <div class="grid-item" id="00" onclick="game.getInput(this.id)"></div>
-      <div class="grid-item" id="01" onclick="game.getInput(this.id)"></div>
-      <div class="grid-item" id="02" onclick="game.getInput(this.id)"></div>
-      <div class="grid-item" id="10" onclick="game.getInput(this.id)"></div>
-      <div class="grid-item" id="11" onclick="game.getInput(this.id)"></div>
-      <div class="grid-item" id="12" onclick="game.getInput(this.id)"></div>
-      <div class="grid-item" id="20" onclick="game.getInput(this.id)"></div>
-      <div class="grid-item" id="21" onclick="game.getInput(this.id)"></div>
-      <div class="grid-item" id="22" onclick="game.getInput(this.id)"></div>
+      <div class="grid-item empty" id="00" onclick="game.getInput(this.id)"></div>
+      <div class="grid-item empty"" id="01" onclick="game.getInput(this.id)"></div>
+      <div class="grid-item empty"" id="02" onclick="game.getInput(this.id)"></div>
+      <div class="grid-item empty"" id="10" onclick="game.getInput(this.id)"></div>
+      <div class="grid-item empty"" id="11" onclick="game.getInput(this.id)"></div>
+      <div class="grid-item empty"" id="12" onclick="game.getInput(this.id)"></div>
+      <div class="grid-item empty"" id="20" onclick="game.getInput(this.id)"></div>
+      <div class="grid-item empty"" id="21" onclick="game.getInput(this.id)"></div>
+      <div class="grid-item empty"" id="22" onclick="game.getInput(this.id)"></div>
     </div>
     <div id="game-controls">
       <div id="start-button" onclick="game.reset()">Start</div>

@@ -26,9 +26,17 @@ const gameBoard = {
     ],
     turnInfo: document.getElementById("turn-info"),
     updateGameboard: function (){
+        let e=null;
         for (i=0;i<3;i++){
             for (j=0;j<3;j++){
+                e=document.getElementById(i+''+j);
                 document.getElementById(i+''+j).innerHTML = this.board[i][j] || '';
+                if (this.board[i][j]==null) {
+                    document.getElementById(i+''+j).classList.add('empty');
+                }
+                else {
+                    document.getElementById(i+''+j).classList.remove('empty');
+                }
             }
         }
     }

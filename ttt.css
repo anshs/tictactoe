@@ -1,49 +1,91 @@
-div {
-    border: 1px solid black; /* Applies to all div elements */
-}
 
 div#game-container {
-    width: 600px; /* Set width to 600 pixels */
-    margin: 10px auto; /* Center the div horizontally */
+    width: clamp(300px, 50%, 600px) ; 
+    margin: 0px auto; /* Center the div horizontally */
     border: 1px solid lightgrey; /* 1px light grey border */
+    font: 100% Helvetica, Verdana, Arial, sans-serif;
+    padding:0;
 }
-
-div#game-container > div{
-    margin: 10px auto;
+div#game-title {
+    font-family: 'Trebuchet MS', Helvetica, Verdana, Arial, sans-serif;
+    text-align: center;
+    background-color:darkslategray;
+    color: white;
+    padding: 25px;
 }
-
+div#game-title h1{
+    padding:0; margin:0;
+}
 div#player-details{
     display: flex;
     flex: 1 1 auto;
     align-items: center;
     justify-content: center;
-    gap: 8px;
     text-align: center;
+    font-family:'Courier New', Courier, monospace;
+    padding: 20px 0;
 }
+
+div#player1name, div#player2name{
+    text-transform: uppercase;
+    font-weight:bold;
+}
+#player1, #player2, #game-draws{
+    margin-top: 5px;
+    font-size: 85%;
+    color:darkslategray;
+}
+
 div#turn-info{
     text-align: center;
+    margin: 5px auto;
 }
 
 div.game-grid{
+    width: 100%;
+    margin: auto;
     display: grid;
-    padding: 16px;
-    background: lightgrey;
-    align-items: center;
+    grid-template-columns: repeat(3, 60px);
+    grid-template-rows: repeat(3, 60px); 
+    grid-gap: 15px; /* Adjust the gap between grid items as needed */
     justify-content: center;
-    grid-template-columns: 50px 50px 50px;
-    grid-template-rows: 50px 50px 50px;
-    gap: 8px;
+    padding: 10px 0;
 }
 .grid-item {
-    width: 50px;
-    height: 50px;
-    border: 1px solid darkslategray;
-    background: skyblue;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background-color:darkslategray;
+    color: white;
+    justify-content: center;
+    font-size: 36px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s; /* Smooth transition effect */
   }
+
+.grid-item.empty:hover {
+    background-color: #5aa5e7; /* Lighter background color on hover */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Slight box shadow on hover */
+}
+
 div#game-controls{
     text-align: center;
+    margin: 10px 0;
 }
 div#start-button{
     display: inline-block;
-    padding: 4px 8px;
+    padding: 10px 15px;
+    background-color:  #FCFCFD;
+    border-radius: 4px;
+    box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,rgba(45, 35, 66, 0.3) 0 7px 13px -3px,#D6D6E7 0 -3px 0 inset;
+    color: #36395A;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: box-shadow .15s,transform .15s;
+    margin: 10px 0;
+}
+div#start-button:hover{
+    box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
+    transform: translateY(-2px);
 }
